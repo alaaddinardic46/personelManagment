@@ -79,12 +79,12 @@ const statusLabels = {
   Cancelled: "İptal Edildi"
 };
 
-export const genderLabels: Record<Gender, string> = {
+const genderLabels: Record<Gender, string> = {
   Male: "Erkek",
   Female: "Kadın",
 };
 
-export const departmentLabels: Record<Department, string> = {
+const departmentLabels: Record<Department, string> = {
   Software: "Yazılım",
   Accounting: "Muhasebe",
   HumanResources: "İnsan Kaynakları",
@@ -93,7 +93,7 @@ export const departmentLabels: Record<Department, string> = {
   TechnicalSupport: "Teknik Destek",
 };
 
-export const titleLabels: Record<Title, string> = {
+const titleLabels: Record<Title, string> = {
   Intern: "Stajyer",
   Specialist: "Uzman",
   SeniorSpecialist: "Kıdemli Uzman",
@@ -108,27 +108,6 @@ const statusColors = {
   Completed: "bg-green-100 text-green-800",
   Cancelled: "bg-red-100 text-red-800"
 };
-
-const initialAssignments: Assignment[] = [
-  {
-    id: 1,
-    title: "Website Yenileme",
-    description: "Şirket websitesinin güncel tasarıma göre yenilenmesi",
-    personelId: 2,
-    assignedDate: "2024-01-15T09:00:00Z",
-    dueDate: "2024-02-15T17:00:00Z",
-    status: "InProgress"
-  },
-  {
-    id: 2,
-    title: "İK Politikaları Güncellemesi",
-    description: "İnsan kaynakları politikalarının 2024 yılına göre güncellenmesi",
-    personelId: 1,
-    assignedDate: "2024-01-10T09:00:00Z",
-    dueDate: "2024-01-30T17:00:00Z",
-    status: "Completed"
-  }
-];
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState("personnel");
