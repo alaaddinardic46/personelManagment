@@ -130,7 +130,7 @@ const initialAssignments: Assignment[] = [
   }
 ];
 
-export default function PersonnelManagementSystem() {
+export default function Page() {
   const [activeTab, setActiveTab] = useState("personnel");
 
   // Personnel states
