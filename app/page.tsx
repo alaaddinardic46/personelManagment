@@ -79,12 +79,12 @@ const statusLabels = {
   Cancelled: "İptal Edildi"
 };
 
-export const genderLabels: Record<Gender, string> = {
+const genderLabels: Record<Gender, string> = {
   Male: "Erkek",
   Female: "Kadın",
 };
 
-export const departmentLabels: Record<Department, string> = {
+const departmentLabels: Record<Department, string> = {
   Software: "Yazılım",
   Accounting: "Muhasebe",
   HumanResources: "İnsan Kaynakları",
@@ -93,7 +93,7 @@ export const departmentLabels: Record<Department, string> = {
   TechnicalSupport: "Teknik Destek",
 };
 
-export const titleLabels: Record<Title, string> = {
+const titleLabels: Record<Title, string> = {
   Intern: "Stajyer",
   Specialist: "Uzman",
   SeniorSpecialist: "Kıdemli Uzman",
