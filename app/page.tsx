@@ -32,6 +32,7 @@ import { format } from 'date-fns';
 import { api } from '../api';
 import { useRouter } from 'next/navigation'
 import Header from "@/components/ui/Header";
+import { getCookie } from '../cookies'
 
 type Gender = "Male" | "Female";
 type Department = "Software" | "Accounting" | "HumanResources" | "Marketing" | "Sales" | "TechnicalSupport";
@@ -145,10 +146,11 @@ export default function Page() {
   const [isAssignmentDialogOpen, setIsAssignmentDialogOpen] = useState(false);
   const isFirstRender = useRef(true);
   const router = useRouter()
+  const user = getCookie('user');
 
   useEffect(() => {
-      const id = sessionStorage.getItem('id');
-      const statu = sessionStorage.getItem('status');
+      const id = user.id;
+      const statu = user.status;
       if(id){
           let status = "/user";
           if(statu == "1"){

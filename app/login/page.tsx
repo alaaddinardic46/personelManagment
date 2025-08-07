@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { api } from '@/api'
+import { setCookie, getCookie } from '../../cookies'
 
 export default function LoginForm() {
   const [email, setEmail] = useState('')
@@ -24,15 +25,12 @@ export default function LoginForm() {
   const [successMessage, setSuccessMessage] = useState('')
   const router = useRouter()
 
+  // Eğer kullanıcı zaten giriş yapmışsa yönlendirme işlemi
   useEffect(() => {
-    const id = sessionStorage.getItem('id');
-    const statu = sessionStorage.getItem('status');
-    if(id){
-        let status = "/user";
-        if(statu == "1"){
-            status = "/";
-        }
-        router.push(status);
+    const user = getCookie('user') // Cookie'den kullanıcı verisini al
+    if (user) {
+      const status = user.status === '1' ? '/' : '/user'
+      router.push(status) // Kullanıcı zaten giriş yapmışsa, ilgili sayfaya yönlendir
     }
   }, [])
 
@@ -49,7 +47,7 @@ export default function LoginForm() {
     setSuccessMessage('')
 
     try {
-      const response = await axios.post(api+'personel/Login', {
+      const response = await axios.post(api + 'personel/Login', {
         email,
         password,
       })
@@ -58,16 +56,21 @@ export default function LoginForm() {
 
       if (data.success) {
         setSuccessMessage(data.message)
-        sessionStorage.setItem("id", data.id);
-        sessionStorage.setItem("status", data.status);
-        sessionStorage.setItem("fullName", data.nameSurname);
-        sessionStorage.setItem("email", data.email);
-        console.log(data);
-        // 1 saniye sonra ana sayfaya yönlendir
-        let status = "/user";
-        if(data.status == 1){
-            status = "/";
+        
+        // Kullanıcı bilgilerini cookie'ye kaydediyoruz
+        const userData = {
+          id: data.id,
+          status: data.status,
+          fullName: data.nameSurname,
+          email: data.email,
         }
+        
+        setCookie('user', userData) // Cookie'ye kullanıcı bilgilerini kaydet
+
+        console.log(data)
+
+        // 1 saniye sonra ilgili sayfaya yönlendir
+        const status = data.status === '1' ? '/' : '/user'
         setTimeout(() => {
           router.push(status)
         }, 1000)
@@ -89,7 +92,9 @@ export default function LoginForm() {
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div>
-              <Label className='mb-1' htmlFor="email">Email</Label>
+              <Label className="mb-1" htmlFor="email">
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -99,7 +104,9 @@ export default function LoginForm() {
               />
             </div>
             <div>
-              <Label className='mb-1' htmlFor="password">Şifre</Label>
+              <Label className="mb-1" htmlFor="password">
+                Şifre
+              </Label>
               <Input
                 id="password"
                 type="password"

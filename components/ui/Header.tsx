@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { api } from "@/api";
+import { getCookie, removeCookie } from '../../cookies'
 
 export default function Header() {
   const [fullName, setFullName] = useState("");
@@ -29,10 +30,11 @@ export default function Header() {
   const [password, setPassword] = useState(""); // Şifre input'u için state
   const [confirmPassword, setConfirmPassword] = useState(""); // Şifre doğrulama input'u
   const router = useRouter();
+  const user = getCookie('user');
 
   useEffect(() => {
-    const fullName = sessionStorage.getItem("fullName");
-    const email = sessionStorage.getItem("email");
+    const fullName = user.fullName;
+    const email = user.email;
     if (fullName) {
       setFullName(fullName);
     }
@@ -43,7 +45,7 @@ export default function Header() {
 
   // Çıkış yapma fonksiyonu
   function quit() {
-    sessionStorage.clear();
+    removeCookie('user');
     router.push("/login");
   }
 
@@ -54,7 +56,7 @@ export default function Header() {
       return;
     }
 
-    const personelId = sessionStorage.getItem("id");
+    const personelId = user.id;
     if (!personelId) {
       alert("Personel bilgisi bulunamadı!");
       return;

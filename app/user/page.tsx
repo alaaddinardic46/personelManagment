@@ -34,6 +34,7 @@ import axios from "axios";
 import Header from "@/components/ui/Header";
 import { useRouter } from "next/navigation";
 import { api } from "@/api";
+import { getCookie } from '../../cookies'
 
 enum AssignmentStatus {
   Beklemede = 0,
@@ -90,10 +91,11 @@ export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [totalCount, setTotalCount] = useState(0);
   const router = useRouter()
+  const user = getCookie('user');
 
   useEffect(() => {
-        const id = sessionStorage.getItem('id');
-        const statu = sessionStorage.getItem('status');
+        const id = user.id;
+        const statu = user.status;
         if(id){
             let status = "/user";
             if(statu == "1"){
@@ -108,7 +110,7 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchAssignments() {
-      const personelId = sessionStorage.getItem("id");
+      const personelId = user.id;
       if (!personelId) {
         console.warn("Personel ID bulunamadı!");
         return;
