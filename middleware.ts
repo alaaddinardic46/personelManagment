@@ -4,8 +4,10 @@ import cookie from 'cookie'
 
 // Middleware işlevi
 export function middleware(req: NextRequest) {
-  const cookies = cookie.parse(req.headers.get('cookie') || '')
-  const user = cookies.user ? JSON.parse(cookies.user) : null
+  const cookiesHeader = req.headers.get('cookie');
+  const cookies = cookiesHeader ? cookie.parse(cookiesHeader) : {};
+
+  const user = cookies.user ? JSON.parse(cookies.user) : null;
 
   // Eğer kullanıcı girişi yapılmamışsa, login sayfasına yönlendir
   if (!user) {
